@@ -7,5 +7,4 @@ type Exercise struct {
 	gorm.Model
 	Name        string
 	Description string
-	Image       string
 }

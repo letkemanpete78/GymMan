@@ -5,13 +5,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
-
-	"rest-gin-gorm/exercise"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/letkemanpete78/gymman/exercise"
 )
 
 func initDB() *gorm.DB {
-	db, err := gorm.Open("mysql", os.Getenv("DB_URL"))
+	db, err := gorm.Open("sqlite3", os.Getenv("exercise.db"))
 	if err != nil {
 		panic(err)
 	}
@@ -25,7 +24,7 @@ func main() {
 	db := initDB()
 	defer db.Close()
 
-	exerciseAPI := InitExerciseAPI(db)
+	exerciseAPI := InitAPI(db)
 
 	r := gin.Default()
 

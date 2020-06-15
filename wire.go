@@ -1,14 +1,14 @@
 package main
 
 import (
-	"rest-gin-gorm/exercise"
+	"exercise"
 
 	"github.com/google/wire"
 	"github.com/jinzhu/gorm"
 )
 
-func initExerciseAPI(db *gorm.DB) exercise.ExerciseAPI {
-	wire.Build(exercise.ProvideExerciseRepostiory, exercise.ProvideExerciseService, exercise.ProvideExerciseAPI)
+func initAPI(db *gorm.DB) exercise.API {
+	wire.Build(exercise.ProvideExerciseRepostiory, exercise.ProvideService, exercise.ProvideAPI)
 
-	return exercise.ExerciseAPI{}
+	return exercise.API{}
 }

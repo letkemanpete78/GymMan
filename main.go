@@ -25,17 +25,19 @@ func initDB() *gorm.DB {
 
 func main() {
 
-	/* */
+	/*
+		https://github.com/devilsray/golang-viper-config-example
+	*/
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
 	var configuration config.Configuration
 
-	if err := viper.ReadInConfig(); err != nil {
-		log.Fatalf("Error reading config file, %s", err)
+	if configErr := viper.ReadInConfig(); configErr != nil {
+		log.Fatalf("Error reading config file, %s", configErr)
 	}
-	err := viper.Unmarshal(&configuration)
-	if err != nil {
-		log.Fatalf("unable to decode into struct, %v", err)
+	configErr := viper.Unmarshal(&configuration)
+	if configErr != nil {
+		log.Fatalf("unable to decode into struct, %v", configErr)
 	}
 	log.Printf("database uri is %s", configuration.Database.ConnectionUri)
 	log.Printf("port for this application is %d", configuration.Server.Port)

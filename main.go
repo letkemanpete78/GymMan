@@ -1,12 +1,15 @@
 package main
 
 import (
+	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/letkemanpete78/gymman/config"
 	"github.com/letkemanpete78/gymman/exercise"
+	"github.com/spf13/viper"
 )
 
 func initDB() *gorm.DB {
@@ -21,6 +24,23 @@ func initDB() *gorm.DB {
 }
 
 func main() {
+
+	/* */
+	viper.SetConfigName("config")
+	viper.AddConfigPath(".")
+	var configuration config.Configuration
+
+	if err := viper.ReadInConfig(); err != nil {
+		log.Fatalf("Error reading config file, %s", err)
+	}
+	err := viper.Unmarshal(&configuration)
+	if err != nil {
+		log.Fatalf("unable to decode into struct, %v", err)
+	}
+	log.Printf("database uri is %s", configuration.Database.ConnectionUri)
+	log.Printf("port for this application is %d", configuration.Server.Port)
+	/* */
+
 	db := initDB()
 	defer db.Close()
 

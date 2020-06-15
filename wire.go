@@ -6,7 +6,8 @@ import (
 	"github.com/letkemanpete78/gymman/exercise"
 )
 
-func InitAPI(db *gorm.DB) exercise.API {
+// InitAPI is the basic db inject method
+func initAPI(db *gorm.DB) exercise.API {
 	wire.Build(exercise.ProvideExerciseRepostiory, exercise.ProvideService, exercise.ProvideAPI)
 
 	return exercise.API{}

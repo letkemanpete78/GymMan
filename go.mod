@@ -1,4 +1,4 @@
-module exercise
+module github.com/letkemanpete78/gymman
 
 go 1.13
 

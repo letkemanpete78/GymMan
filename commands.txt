@@ -1,0 +1,2 @@
+# list ports in use
+lsof -i -P -n | grep LISTEN

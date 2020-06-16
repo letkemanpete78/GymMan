@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 // API defines the model to the exercise service
@@ -42,6 +43,7 @@ func (p *API) Create(c *gin.Context) {
 		c.Status(http.StatusBadRequest)
 		return
 	}
+	exerciseDTO.UUID = uuid.New().String()
 
 	createdExercise := p.Service.Save(ToExercise(exerciseDTO))
 

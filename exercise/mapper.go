@@ -2,12 +2,12 @@ package exercise
 
 // ToExercise converts an DTO object to Exercise object
 func ToExercise(exerciseDTO DTO) Exercise {
-	return Exercise{Name: exerciseDTO.Name, Description: exerciseDTO.Description}
+	return Exercise{Name: exerciseDTO.Name, Description: exerciseDTO.Description, UUID: exerciseDTO.UUID}
 }
 
 // ToDTO converts an Exercise object to DTO object
 func ToDTO(exercise Exercise) DTO {
-	return DTO{ID: exercise.ID, Name: exercise.Name, Description: exercise.Description}
+	return DTO{ID: exercise.ID, Name: exercise.Name, Description: exercise.Description, UUID: exercise.UUID}
 }
 
 // ToDTOs converts an array of DTO objects to an array of Exercise objects

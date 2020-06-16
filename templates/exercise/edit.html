@@ -1,0 +1,7 @@
+<h1>Editing {{.Name}}</h1>
+
+<form action="/save/{{.UUID}}" method="POST">
+    <div>Name:</div><div><input type="text" name="name" value="{{printf "%s" .description}}"/></div>
+<div><textarea name="description" rows="20" cols="80">{{printf "%s" .description}}</textarea></div>
+<div><input type="submit" value="Save"></div>
+</form>

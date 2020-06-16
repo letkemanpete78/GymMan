@@ -2,7 +2,9 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -56,7 +58,8 @@ func main() {
 	r.PUT("/exercises/:id", exerciseAPI.Update)
 	r.DELETE("/exercises/:id", exerciseAPI.Delete)
 
-	err := r.Run()
+	var port string = ":" + strconv.FormatUint(configuration.Server.Port, 10)
+	err := http.ListenAndServe(port, r)
 	if err != nil {
 		panic(err)
 	}

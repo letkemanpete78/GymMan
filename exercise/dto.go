@@ -5,4 +5,5 @@ type DTO struct {
 	ID          uint   `json:"id,string,omitempty"`
 	Name        string `json:"name,string"`
 	Description string `json:"description,string"`
+	UUID        string `json:"uuid,strings"`
 }

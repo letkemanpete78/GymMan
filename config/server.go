@@ -1,5 +1,5 @@
 package config
 
 type ServerConfiguration struct {
-	Port int
+	Port uint64
 }

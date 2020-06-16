@@ -42,7 +42,7 @@ func main() {
 		log.Fatalf("unable to decode into struct, %v", configErr)
 	}
 	log.Printf("database uri is %s", configuration.Database.ConnectionUri)
-	log.Printf("port for this application is %d", configuration.Server.Port)
+
 	/* */
 
 	db := initDB()
@@ -51,16 +51,32 @@ func main() {
 	exerciseAPI := InitAPI(db)
 
 	r := gin.Default()
-	exerciseVersion := configuration.APIVersions.Exercise
-	r.GET("/exercises/"+exerciseVersion, exerciseAPI.FindAll)
-	r.GET("/exercises/"+exerciseVersion+"/:uuid", exerciseAPI.FindByUUID)
-	r.POST("/exercises/"+exerciseVersion, exerciseAPI.Create)
-	r.PUT("/exercises/"+exerciseVersion+"/:uuid", exerciseAPI.Update)
-	r.DELETE("/exercises/"+exerciseVersion+"/:uuid", exerciseAPI.Delete)
 
-	var port string = ":" + strconv.FormatUint(configuration.Server.Port, 10)
-	err := http.ListenAndServe(port, r)
-	if err != nil {
-		panic(err)
+	exerciseVersion := configuration.APIVersions.Exercise
+	rg := r.Group("/exercises/" + exerciseVersion)
+	rg.GET("/", exerciseAPI.FindAll)
+	rg.GET("/:uuid", exerciseAPI.FindByUUID)
+	rg.POST("/", exerciseAPI.Create)
+	rg.PUT("/:uuid", exerciseAPI.Update)
+	rg.DELETE("/:uuid", exerciseAPI.Delete)
+
+	r.LoadHTMLGlob("templates/exercise/*")
+	r.GET("/list", renderTemplate)
+
+	var port = getPort(&configuration)
+	r.Run(port)
+}
+
+func renderTemplate(c *gin.Context) {
+	var values []int
+	for i := 0; i < 5; i++ {
+		values = append(values, i)
 	}
+
+	c.HTML(http.StatusOK, "list.html", gin.H{"Exercises": values})
+}
+
+func getPort(config *config.Configuration) string {
+	log.Printf("port for this application is %d", config.Server.Port)
+	return ":" + strconv.FormatUint(config.Server.Port, 10)
 }

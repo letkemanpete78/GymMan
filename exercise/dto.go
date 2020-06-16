@@ -2,8 +2,7 @@ package exercise
 
 // DTO used for json data transfer objects
 type DTO struct {
-	ID          uint   `json:"id,string,omitempty"`
+	UUID        string `json:"uuid,strings"`
 	Name        string `json:"name,string"`
 	Description string `json:"description,string"`
-	UUID        string `json:"uuid,strings"`
 }

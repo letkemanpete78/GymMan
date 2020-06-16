@@ -1,7 +1,9 @@
-<h1>Editing {{.Name}}</h1>
+<h1>Editing Exercise: {{.Name}}</h1>
 
-<form action="/save/{{.UUID}}" method="POST">
-    <div>Name:</div><div><input type="text" name="name" value="{{printf "%s" .description}}"/></div>
-<div><textarea name="description" rows="20" cols="80">{{printf "%s" .description}}</textarea></div>
-<div><input type="submit" value="Save"></div>
+<form action="/exercises/{{.UUID}}" method="PUT">
+{{template "formbody"}}
+<div><input type="submit" value="Update"></div>
+</form>
+<form action="/exercises/{{.UUID}}" method="DELETE">
+    <div><input type="submit" value="DELETE"></div>
 </form>

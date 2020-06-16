@@ -24,10 +24,10 @@ func (p *Repository) FindAll() []Exercise {
 	return exercises
 }
 
-// FindByID is the repository method to return exercise  from the database given the ID value
-func (p *Repository) FindByID(id uint) Exercise {
+// FindByUUID is the repository method to return exercise  from the database given the ID value
+func (p *Repository) FindByUUID(uuid string) Exercise {
 	var exercise Exercise
-	p.DB.First(&exercise, id)
+	p.DB.First(&exercise, uuid)
 
 	return exercise
 }

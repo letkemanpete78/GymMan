@@ -1,6 +1,6 @@
 <h1>Exercise Listing</h1>
 <ul>
     {{range .Exercises}}
-        <li>{{.name}}</li>
+        <li>{{.name}} <a href="/exercise/{{.uuid}}">Edit/Delete</a></li>
     {{end}}
 </ul>

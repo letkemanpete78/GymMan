@@ -1,0 +1,4 @@
+{{define "formBody"}}
+<div>Name:</div><div><input type="text" name="name" value="{{printf "%s" .description}}"/></div>
+<div><textarea name="description" rows="20" cols="80">{{printf "%s" .description}}</textarea></div>
+{{end}}

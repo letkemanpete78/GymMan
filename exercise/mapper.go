@@ -7,7 +7,7 @@ func ToExercise(exerciseDTO DTO) Exercise {
 
 // ToDTO converts an Exercise object to DTO object
 func ToDTO(exercise Exercise) DTO {
-	return DTO{ID: exercise.ID, Name: exercise.Name, Description: exercise.Description, UUID: exercise.UUID}
+	return DTO{Name: exercise.Name, Description: exercise.Description, UUID: exercise.UUID}
 }
 
 // ToDTOs converts an array of DTO objects to an array of Exercise objects

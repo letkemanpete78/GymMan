@@ -3,7 +3,6 @@ package exercise
 import (
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -26,10 +25,10 @@ func (p *API) FindAll(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"exercises": ToDTOs(exercises)})
 }
 
-// FindByID finds the exercise record by primary key/id
-func (p *API) FindByID(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
-	exercise := p.Service.FindByID(uint(id))
+// FindByUUID finds the exercise record by primary key/id
+func (p *API) FindByUUID(c *gin.Context) {
+	uuid := c.Param("uuid")
+	exercise := p.Service.FindByUUID(uuid)
 
 	c.JSON(http.StatusOK, gin.H{"exercise": ToDTO(exercise)})
 }
@@ -60,8 +59,8 @@ func (p *API) Update(c *gin.Context) {
 		return
 	}
 
-	id, _ := strconv.Atoi(c.Param("id"))
-	exercise := p.Service.FindByID(uint(id))
+	uuid := c.Param("uuid")
+	exercise := p.Service.FindByUUID(uuid)
 	if exercise == (Exercise{}) {
 		c.Status(http.StatusBadRequest)
 		return
@@ -76,8 +75,8 @@ func (p *API) Update(c *gin.Context) {
 
 // Delete removes an exercise record from database
 func (p *API) Delete(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
-	exercise := p.Service.FindByID(uint(id))
+	uuid := c.Param("uuid")
+	exercise := p.Service.FindByUUID(uuid)
 	if exercise == (Exercise{}) {
 		c.Status(http.StatusBadRequest)
 		return

@@ -15,9 +15,9 @@ func (p *Service) FindAll() []Exercise {
 	return p.Repository.FindAll()
 }
 
-// FindByID is the service method to return exercise  from the database given the ID value
-func (p *Service) FindByID(id uint) Exercise {
-	return p.Repository.FindByID(id)
+// FindByUUID is the service method to return exercise  from the database given the ID value
+func (p *Service) FindByUUID(uuid string) Exercise {
+	return p.Repository.FindByUUID(uuid)
 }
 
 // Save is the service method to save the exercise object into the database

@@ -3,3 +3,8 @@ database:
 
 server:
   port: 8080
+
+apiversions:
+  exercise: "v1"
+  workout: "v1"
+  rountine: "v1"

@@ -51,12 +51,12 @@ func main() {
 	exerciseAPI := InitAPI(db)
 
 	r := gin.Default()
-
-	r.GET("/exercises", exerciseAPI.FindAll)
-	r.GET("/exercises/:uuid", exerciseAPI.FindByUUID)
-	r.POST("/exercises", exerciseAPI.Create)
-	r.PUT("/exercises/:uuid", exerciseAPI.Update)
-	r.DELETE("/exercises/:uuid", exerciseAPI.Delete)
+	exerciseVersion := configuration.APIVersions.Exercise
+	r.GET("/exercises/"+exerciseVersion, exerciseAPI.FindAll)
+	r.GET("/exercises/"+exerciseVersion+"/:uuid", exerciseAPI.FindByUUID)
+	r.POST("/exercises/"+exerciseVersion, exerciseAPI.Create)
+	r.PUT("/exercises/"+exerciseVersion+"/:uuid", exerciseAPI.Update)
+	r.DELETE("/exercises/"+exerciseVersion+"/:uuid", exerciseAPI.Delete)
 
 	var port string = ":" + strconv.FormatUint(configuration.Server.Port, 10)
 	err := http.ListenAndServe(port, r)

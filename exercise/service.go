@@ -1,5 +1,9 @@
 package exercise
 
+import (
+	"github.com/google/uuid"
+)
+
 // Service is the object used for the repository
 type Service struct {
 	Repository Repository
@@ -22,6 +26,9 @@ func (p *Service) FindByUUID(uuid string) Exercise {
 
 // Save is the service method to save the exercise object into the database
 func (p *Service) Save(exercise Exercise) Exercise {
+	if exercise.UUID == "" {
+		exercise.UUID = uuid.New().String()
+	}
 	p.Repository.Save(exercise)
 
 	return exercise

@@ -53,10 +53,10 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/exercises", exerciseAPI.FindAll)
-	r.GET("/exercises/:id", exerciseAPI.FindByID)
+	r.GET("/exercises/:uuid", exerciseAPI.FindByUUID)
 	r.POST("/exercises", exerciseAPI.Create)
-	r.PUT("/exercises/:id", exerciseAPI.Update)
-	r.DELETE("/exercises/:id", exerciseAPI.Delete)
+	r.PUT("/exercises/:uuid", exerciseAPI.Update)
+	r.DELETE("/exercises/:uuid", exerciseAPI.Delete)
 
 	var port string = ":" + strconv.FormatUint(configuration.Server.Port, 10)
 	err := http.ListenAndServe(port, r)

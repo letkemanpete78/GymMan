@@ -3,6 +3,7 @@ package exercise
 import (
 	"github.com/jinzhu/gorm"
 	// _ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/google/uuid"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
@@ -34,6 +35,9 @@ func (p *Repository) FindByUUID(uuid string) Exercise {
 
 // Save is the repository method to save the exercise object into the database
 func (p *Repository) Save(exercise Exercise) Exercise {
+	if exercise.UUID == "" {
+		exercise.UUID = uuid.New().String()
+	}
 	p.DB.Save(&exercise)
 
 	return exercise

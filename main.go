@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -15,7 +14,8 @@ import (
 )
 
 func initDB() *gorm.DB {
-	db, err := gorm.Open("sqlite3", os.Getenv("exercise.db"))
+	// db, err := gorm.Open("sqlite3", os.Getenv("exercise.db"))
+	db, err := gorm.Open("sqlite3", "/home/pete/Desktop/gymman/exercise.db")
 	if err != nil {
 		panic(err)
 	}
@@ -61,16 +61,21 @@ func main() {
 	rg.DELETE("/:uuid", exerciseAPI.Delete)
 
 	r.LoadHTMLGlob("templates/exercise/*")
-	r.GET("/list", renderTemplate)
+	r.GET("/create", renderCreateExercise)
+	r.GET("/list", renderListExcercises)
 
 	var port = getPort(&configuration)
 	r.Run(port)
 }
 
-func renderTemplate(c *gin.Context) {
-	var values []int
+func renderCreateExercise(c *gin.Context) {
+	c.HTML(http.StatusOK, "create.html", gin.H{"Exercises": nil})
+}
+
+func renderListExcercises(c *gin.Context) {
+	var values []exercise.Exercise
 	for i := 0; i < 5; i++ {
-		values = append(values, i)
+		values = append(values, exercise.Exercise{Name: "Pete", Description: "Description"})
 	}
 
 	c.HTML(http.StatusOK, "list.html", gin.H{"Exercises": values})

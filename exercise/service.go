@@ -1,7 +1,7 @@
 package exercise
 
 import (
-	"github.com/google/uuid"
+	"log"
 )
 
 // Service is the object used for the repository
@@ -26,9 +26,9 @@ func (p *Service) FindByUUID(uuid string) Exercise {
 
 // Save is the service method to save the exercise object into the database
 func (p *Service) Save(exercise Exercise) Exercise {
-	if exercise.UUID == "" {
-		exercise.UUID = uuid.New().String()
-	}
+	log.Printf(exercise.Name)
+	log.Println(exercise.Description)
+	log.Println(exercise.UUID)
 	p.Repository.Save(exercise)
 
 	return exercise

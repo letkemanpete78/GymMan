@@ -22,7 +22,8 @@ func ProvideAPI(p Service) API {
 func (p *API) FindAll(c *gin.Context) {
 	exercises := p.Service.FindAll()
 
-	c.JSON(http.StatusOK, gin.H{"exercises": ToDTOs(exercises)})
+	//c.JSON(http.StatusOK, gin.H{"exercises": ToDTOs(exercises)})
+	c.JSON(http.StatusOK, gin.H{"exercises": exercises})
 }
 
 // FindByUUID finds the exercise record by primary key/id
@@ -30,22 +31,26 @@ func (p *API) FindByUUID(c *gin.Context) {
 	uuid := c.Param("uuid")
 	exercise := p.Service.FindByUUID(uuid)
 
-	c.JSON(http.StatusOK, gin.H{"exercise": ToDTO(exercise)})
+	// c.JSON(http.StatusOK, gin.H{"exercise": ToDTO(exercise)})
+	c.JSON(http.StatusOK, gin.H{"exercise": exercise})
+
 }
 
 // Create inserts a record into database
 func (p *API) Create(c *gin.Context) {
 	var exerciseDTO DTO
-	err := c.BindJSON(&exerciseDTO)
-	if err != nil {
-		log.Fatalln(err)
-		c.Status(http.StatusBadRequest)
-		return
-	}
+	exerciseDTO.Description = c.PostForm("description")
+	exerciseDTO.Name = c.PostForm("name")
 	exerciseDTO.UUID = uuid.New().String()
 
-	createdExercise := p.Service.Save(ToExercise(exerciseDTO))
+	// err := c.BindJSON(&exerciseDTO)
+	// if err != nil {
+	// 	log.Fatalln(err)
+	// 	c.Status(http.StatusBadRequest)
+	// 	return
+	// }
 
+	createdExercise := p.Service.Save(ToExercise(exerciseDTO))
 	c.JSON(http.StatusOK, gin.H{"exercise": ToDTO(createdExercise)})
 }
 

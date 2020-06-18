@@ -57,28 +57,44 @@ func main() {
 	rgAPI.GET("/", exerciseAPI.FindAll)
 	rgAPI.GET("/:uuid", exerciseAPI.FindByUUID)
 	rgAPI.POST("/", exerciseAPI.Create)
-	rgAPI.PUT("/:uuid", exerciseAPI.Update)
-	rgAPI.DELETE("/:uuid", exerciseAPI.Delete)
+	rgAPI.POST("/u/:uuid", exerciseAPI.Update)
+	rgAPI.POST("/d/:uuid", exerciseAPI.Delete)
+
+	// These verbs do not serem to work on my system
+	// rgAPI.DELETE("/:uuid", exerciseAPI.Delete)
+	// rgAPI.PUT("/:uuid", exerciseAPI.Update)
 
 	r.LoadHTMLGlob("templates/exercise/*")
-	rg := r.Group("/exercises/")
+	rg := r.Group("/exercise/")
 	rg.GET("/create", renderCreateExercise)
-	rg.GET("/list", renderListExcercises)
+	rg.GET("/edit/:uuid", renderEditExercise)
+	rg.GET("/list", renderListExercises)
+	rg.GET("/", renderListExercises)
 
 	var port = getPort(&configuration)
 	r.Run(port)
 }
 
 func renderCreateExercise(c *gin.Context) {
-	c.HTML(http.StatusOK, "create.html", gin.H{"Exercises": nil})
+	c.HTML(http.StatusOK, "create.html", gin.H{"Exercise": nil})
 }
 
-func renderListExcercises(c *gin.Context) {
-	var values []exercise.Exercise
+func renderListExercises(c *gin.Context) {
+	var records []exercise.Exercise
 	db := initDB()
 	defer db.Close()
-	db.Find(&exercise.Exercise{}).Scan(&values)
-	c.HTML(http.StatusOK, "list.html", gin.H{"Exercises": values})
+	db.Find(&exercise.Exercise{}).Scan(&records)
+	c.HTML(http.StatusOK, "list.html", gin.H{"Exercises": records})
+}
+
+func renderEditExercise(c *gin.Context) {
+	log.Printf("edit form")
+	var record exercise.Exercise
+	db := initDB()
+	defer db.Close()
+	db.Where(&exercise.Exercise{UUID: c.Param("uuid")}).First(&record)
+	log.Printf(record.UUID + " | " + record.Name)
+	c.HTML(http.StatusOK, "edit.html", gin.H{"Exercise": record})
 }
 
 func getPort(config *config.Configuration) string {

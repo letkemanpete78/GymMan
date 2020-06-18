@@ -51,7 +51,8 @@ func (p *API) Create(c *gin.Context) {
 	// }
 
 	createdExercise := p.Service.Save(ToExercise(exerciseDTO))
-	c.JSON(http.StatusOK, gin.H{"exercise": ToDTO(createdExercise)})
+	// c.JSON(http.StatusOK, gin.H{"exercise": ToDTO(createdExercise)})
+	c.JSON(http.StatusOK, gin.H{"exercise": createdExercise})
 }
 
 // Update saves the updated record to the database

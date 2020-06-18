@@ -53,16 +53,17 @@ func main() {
 	r := gin.Default()
 
 	exerciseVersion := configuration.APIVersions.Exercise
-	rg := r.Group("/exercises/" + exerciseVersion)
-	rg.GET("/", exerciseAPI.FindAll)
-	rg.GET("/:uuid", exerciseAPI.FindByUUID)
-	rg.POST("/", exerciseAPI.Create)
-	rg.PUT("/:uuid", exerciseAPI.Update)
-	rg.DELETE("/:uuid", exerciseAPI.Delete)
+	rgAPI := r.Group("/exercises/" + exerciseVersion)
+	rgAPI.GET("/", exerciseAPI.FindAll)
+	rgAPI.GET("/:uuid", exerciseAPI.FindByUUID)
+	rgAPI.POST("/", exerciseAPI.Create)
+	rgAPI.PUT("/:uuid", exerciseAPI.Update)
+	rgAPI.DELETE("/:uuid", exerciseAPI.Delete)
 
 	r.LoadHTMLGlob("templates/exercise/*")
-	r.GET("/create", renderCreateExercise)
-	r.GET("/list", renderListExcercises)
+	rg := r.Group("/exercises/")
+	rg.GET("/create", renderCreateExercise)
+	rg.GET("/list", renderListExcercises)
 
 	var port = getPort(&configuration)
 	r.Run(port)
@@ -74,10 +75,9 @@ func renderCreateExercise(c *gin.Context) {
 
 func renderListExcercises(c *gin.Context) {
 	var values []exercise.Exercise
-	for i := 0; i < 5; i++ {
-		values = append(values, exercise.Exercise{Name: "Pete", Description: "Description"})
-	}
-
+	db := initDB()
+	defer db.Close()
+	db.Find(&exercise.Exercise{}).Scan(&values)
 	c.HTML(http.StatusOK, "list.html", gin.H{"Exercises": values})
 }
 
